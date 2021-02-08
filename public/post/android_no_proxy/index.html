@@ -1,0 +1,277 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>apk抓不到包也许是no-proxy在作怪 - Zhe'BLog</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Zhe"><meta name=description content="你对NO_PROXY了解吗"><meta name=generator content="Hugo 0.80.0 with theme even"><link rel=canonical href=https://Zh3-H4ck.github.io/post/android_no_proxy/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.8e26a09b7b99e8ec3a22900de69b02b568e23ace71d66ebfdb13fa655d365f1f.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="apk抓不到包也许是no-proxy在作怪"><meta property="og:description" content="你对NO_PROXY了解吗"><meta property="og:type" content="article"><meta property="og:url" content="https://Zh3-H4ck.github.io/post/android_no_proxy/"><meta property="og:image" content="https://Zh3-H4ck.github.io/post/android_no_proxy/cover.jpg"><meta property="article:published_time" content="2020-09-09T00:00:00+00:00"><meta property="article:modified_time" content="2020-09-09T00:00:00+00:00"><meta itemprop=name content="apk抓不到包也许是no-proxy在作怪"><meta itemprop=description content="你对NO_PROXY了解吗"><meta itemprop=datePublished content="2020-09-09T00:00:00+00:00"><meta itemprop=dateModified content="2020-09-09T00:00:00+00:00"><meta itemprop=wordCount content="1132"><meta itemprop=image content="https://Zh3-H4ck.github.io/post/android_no_proxy/cover.jpg"><meta itemprop=keywords content><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Zh3-H4ck.github.io/post/android_no_proxy/cover.jpg"><meta name=twitter:title content="apk抓不到包也许是no-proxy在作怪"><meta name=twitter:description content="你对NO_PROXY了解吗"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Zhe'Blog</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Zhe'Blog</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>apk抓不到包也许是no-proxy在作怪</h1><div class=post-meta><span class=post-time>2020-09-09</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h4 id=0x1-开始>0x1 开始</h4><p>有一天交流时抛出一个问题，有没有遇到过apk在网络交互过程中，burpsuite和fiddler等抓包工具，无法抓取数据包，是否知道原因，以及如何解决？
+今天就把这坑给填了</p><h4 id=0x2-示例1>0x2 示例1</h4><p>OKHttp3是一个当前主流的网络请求的开源框架，我们就用这个框架来进行说明
+首先我们构建一个简单的demo</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-java data-lang=java><span class=kn>package</span> <span class=nn>com.example.fridatest</span><span class=o>;</span>
+
+<span class=kn>import</span> <span class=nn>androidx.annotation.RequiresApi</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>androidx.appcompat.app.AppCompatActivity</span><span class=o>;</span>
+
+<span class=kn>import</span> <span class=nn>android.os.Build</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.os.Bundle</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.os.Looper</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.view.View</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.widget.Toast</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>java.io.IOException</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>okhttp3.OkHttpClient</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>okhttp3.Request</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>okhttp3.Response</span><span class=o>;</span>
+
+<span class=kn>import</span> <span class=nn>java.net.Proxy</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>java.util.Objects</span><span class=o>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>MainActivity</span> <span class=kd>extends</span> <span class=n>AppCompatActivity</span> <span class=o>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>protected</span> <span class=kt>void</span> <span class=nf>onCreate</span><span class=o>(</span><span class=n>Bundle</span> <span class=n>savedInstanceState</span><span class=o>)</span> <span class=o>{</span>
+        <span class=kd>super</span><span class=o>.</span><span class=na>onCreate</span><span class=o>(</span><span class=n>savedInstanceState</span><span class=o>);</span>
+        <span class=n>setContentView</span><span class=o>(</span><span class=n>R</span><span class=o>.</span><span class=na>layout</span><span class=o>.</span><span class=na>activity_main</span><span class=o>);</span>
+
+        <span class=k>this</span><span class=o>.</span><span class=na>findViewById</span><span class=o>(</span><span class=n>R</span><span class=o>.</span><span class=na>id</span><span class=o>.</span><span class=na>button</span><span class=o>).</span><span class=na>setOnClickListener</span><span class=o>(</span><span class=k>new</span> <span class=n>View</span><span class=o>.</span><span class=na>OnClickListener</span><span class=o>()</span> <span class=o>{</span>
+            <span class=nd>@RequiresApi</span><span class=o>(</span><span class=n>api</span> <span class=o>=</span> <span class=n>Build</span><span class=o>.</span><span class=na>VERSION_CODES</span><span class=o>.</span><span class=na>KITKAT</span><span class=o>)</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>void</span> <span class=nf>onClick</span><span class=o>(</span><span class=n>View</span> <span class=n>v</span><span class=o>)</span> <span class=o>{</span>
+                <span class=k>new</span> <span class=n>Thread</span><span class=o>(</span><span class=k>new</span> <span class=n>Runnable</span><span class=o>(){</span>
+                    <span class=nd>@Override</span>
+                    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>run</span><span class=o>()</span> <span class=o>{</span>
+                        <span class=n>Looper</span><span class=o>.</span><span class=na>prepare</span><span class=o>();</span>
+                        <span class=n>OkHttpClient</span> <span class=n>okHttpClient</span> <span class=o>=</span> <span class=k>new</span> <span class=n>OkHttpClient</span><span class=o>.</span><span class=na>Builder</span><span class=o>().</span>
+                                <span class=n>build</span><span class=o>();</span>
+                        <span class=n>Request</span> <span class=n>request</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Request</span><span class=o>.</span><span class=na>Builder</span><span class=o>()</span>
+                                <span class=o>.</span><span class=na>url</span><span class=o>(</span><span class=s>&#34;http://www.baidu.com/?id=1&#34;</span><span class=o>)</span>
+                                <span class=o>.</span><span class=na>build</span><span class=o>();</span>
+                        <span class=n>Response</span> <span class=n>response</span> <span class=o>=</span> <span class=kc>null</span><span class=o>;</span>
+                        <span class=k>try</span> <span class=o>{</span>
+                            <span class=n>response</span> <span class=o>=</span> <span class=n>okHttpClient</span><span class=o>.</span><span class=na>newCall</span><span class=o>(</span><span class=n>request</span><span class=o>).</span><span class=na>execute</span><span class=o>();</span>
+                            <span class=n>String</span> <span class=n>ss</span><span class=o>=</span> <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>response</span><span class=o>.</span><span class=na>body</span><span class=o>()).</span><span class=na>string</span><span class=o>();</span>
+                            <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>ss</span><span class=o>);</span>
+                            <span class=n>Toast</span><span class=o>.</span><span class=na>makeText</span><span class=o>(</span><span class=n>MainActivity</span><span class=o>.</span><span class=na>this</span><span class=o>,</span><span class=n>ss</span><span class=o>,</span><span class=n>Toast</span><span class=o>.</span><span class=na>LENGTH_SHORT</span><span class=o>).</span><span class=na>show</span><span class=o>();</span>
+
+                        <span class=o>}</span> <span class=k>catch</span> <span class=o>(</span><span class=n>IOException</span> <span class=n>e</span><span class=o>)</span> <span class=o>{</span>
+                            <span class=n>e</span><span class=o>.</span><span class=na>printStackTrace</span><span class=o>();</span>
+                        <span class=o>}</span>
+                        <span class=n>Looper</span><span class=o>.</span><span class=na>loop</span><span class=o>();</span>
+                    <span class=o>}</span>
+                <span class=o>}).</span><span class=na>start</span><span class=o>();</span>
+            <span class=o>}</span>
+        <span class=o>});</span>
+
+    <span class=o>}</span>
+
+<span class=o>}</span>
+</code></pre></td></tr></table></div></div><p>apk功能很简单，提供一个按钮，点击后访问url(<a href="http://www.baidu.com/?id=1),">http://www.baidu.com/?id=1),</a>弹窗显示Response。</p><p>运行app，并点击按钮后可见下图</p><p><img src=2020-09-15-16-10-17.png alt=2020-09-15-16-10-17></p><p>可以看到请求发出，并被抓包工具记录</p><h4 id=0x3-2>0x3 2</h4><p>我们给示例1修改下，添加上no_proxy</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-java data-lang=java><span class=kn>package</span> <span class=nn>com.example.fridatest</span><span class=o>;</span>
+
+<span class=kn>import</span> <span class=nn>androidx.annotation.RequiresApi</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>androidx.appcompat.app.AppCompatActivity</span><span class=o>;</span>
+
+<span class=kn>import</span> <span class=nn>android.os.Build</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.os.Bundle</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.os.Looper</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.view.View</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>android.widget.Toast</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>java.io.IOException</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>okhttp3.OkHttpClient</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>okhttp3.Request</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>okhttp3.Response</span><span class=o>;</span>
+
+<span class=kn>import</span> <span class=nn>java.net.Proxy</span><span class=o>;</span>
+<span class=kn>import</span> <span class=nn>java.util.Objects</span><span class=o>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>MainActivity</span> <span class=kd>extends</span> <span class=n>AppCompatActivity</span> <span class=o>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>protected</span> <span class=kt>void</span> <span class=nf>onCreate</span><span class=o>(</span><span class=n>Bundle</span> <span class=n>savedInstanceState</span><span class=o>)</span> <span class=o>{</span>
+        <span class=kd>super</span><span class=o>.</span><span class=na>onCreate</span><span class=o>(</span><span class=n>savedInstanceState</span><span class=o>);</span>
+        <span class=n>setContentView</span><span class=o>(</span><span class=n>R</span><span class=o>.</span><span class=na>layout</span><span class=o>.</span><span class=na>activity_main</span><span class=o>);</span>
+
+        <span class=k>this</span><span class=o>.</span><span class=na>findViewById</span><span class=o>(</span><span class=n>R</span><span class=o>.</span><span class=na>id</span><span class=o>.</span><span class=na>button</span><span class=o>).</span><span class=na>setOnClickListener</span><span class=o>(</span><span class=k>new</span> <span class=n>View</span><span class=o>.</span><span class=na>OnClickListener</span><span class=o>()</span> <span class=o>{</span>
+            <span class=nd>@RequiresApi</span><span class=o>(</span><span class=n>api</span> <span class=o>=</span> <span class=n>Build</span><span class=o>.</span><span class=na>VERSION_CODES</span><span class=o>.</span><span class=na>KITKAT</span><span class=o>)</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>void</span> <span class=nf>onClick</span><span class=o>(</span><span class=n>View</span> <span class=n>v</span><span class=o>)</span> <span class=o>{</span>
+                <span class=k>new</span> <span class=n>Thread</span><span class=o>(</span><span class=k>new</span> <span class=n>Runnable</span><span class=o>(){</span>
+                    <span class=nd>@Override</span>
+                    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>run</span><span class=o>()</span> <span class=o>{</span>
+                        <span class=n>Looper</span><span class=o>.</span><span class=na>prepare</span><span class=o>();</span>
+                        <span class=n>OkHttpClient</span> <span class=n>okHttpClient</span> <span class=o>=</span> <span class=k>new</span> <span class=n>OkHttpClient</span><span class=o>.</span><span class=na>Builder</span><span class=o>().</span>
+                                <span class=n>proxy</span><span class=o>(</span><span class=n>Proxy</span><span class=o>.</span><span class=na>NO_PROXY</span><span class=o>).</span><span class=c1>//添加proxy属性
+</span><span class=c1></span>                                <span class=n>build</span><span class=o>();</span>
+                        <span class=n>Request</span> <span class=n>request</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Request</span><span class=o>.</span><span class=na>Builder</span><span class=o>()</span>
+                                <span class=o>.</span><span class=na>url</span><span class=o>(</span><span class=s>&#34;http://www.baidu.com/?id=1&#34;</span><span class=o>)</span>
+                                <span class=o>.</span><span class=na>build</span><span class=o>();</span>
+                        <span class=n>Response</span> <span class=n>response</span> <span class=o>=</span> <span class=kc>null</span><span class=o>;</span>
+                        <span class=k>try</span> <span class=o>{</span>
+                            <span class=n>response</span> <span class=o>=</span> <span class=n>okHttpClient</span><span class=o>.</span><span class=na>newCall</span><span class=o>(</span><span class=n>request</span><span class=o>).</span><span class=na>execute</span><span class=o>();</span>
+                            <span class=n>String</span> <span class=n>ss</span><span class=o>=</span> <span class=n>Objects</span><span class=o>.</span><span class=na>requireNonNull</span><span class=o>(</span><span class=n>response</span><span class=o>.</span><span class=na>body</span><span class=o>()).</span><span class=na>string</span><span class=o>();</span>
+                            <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>ss</span><span class=o>);</span>
+                            <span class=n>Toast</span><span class=o>.</span><span class=na>makeText</span><span class=o>(</span><span class=n>MainActivity</span><span class=o>.</span><span class=na>this</span><span class=o>,</span><span class=n>ss</span><span class=o>,</span><span class=n>Toast</span><span class=o>.</span><span class=na>LENGTH_SHORT</span><span class=o>).</span><span class=na>show</span><span class=o>();</span>
+
+                        <span class=o>}</span> <span class=k>catch</span> <span class=o>(</span><span class=n>IOException</span> <span class=n>e</span><span class=o>)</span> <span class=o>{</span>
+                            <span class=n>e</span><span class=o>.</span><span class=na>printStackTrace</span><span class=o>();</span>
+                        <span class=o>}</span>
+                        <span class=n>Looper</span><span class=o>.</span><span class=na>loop</span><span class=o>();</span>
+                    <span class=o>}</span>
+                <span class=o>}).</span><span class=na>start</span><span class=o>();</span>
+            <span class=o>}</span>
+        <span class=o>});</span>
+
+    <span class=o>}</span>
+
+<span class=o>}</span>
+</code></pre></td></tr></table></div></div><p>同样运行apk，查看结果
+<img src=2020-09-15-16-16-40.png alt=2020-09-15-16-16-40>
+此时的结果显示，请求成功，但抓包工具没改请求记录，说明数据未经过代理。</p><h4 id=0x3-如何绕过>0x3 如何绕过</h4><ol><li><p>PC端配置反向代理，手机端通过修改hosts文件强行转流量，因为之前的测试中配置过（详细的原理和配置可参见《泄露的网站证书和私钥？来做些有趣的事吧！》）
+需要知道apk在交互过程中涉及到的域名。</p></li><li><p>hook对应的函数。
+本次我们已此为准。我们尝试用frida hook掉proxy函数</p></li></ol><p>我们先找到proxy函数的位置，通过android Studio可以轻松实现
+<code>okhttp-3.14.0.jar!\okhttp3\OkHttpClient.class:461</code>
+<img src=2020-09-15-17-12-02.png alt=2020-09-15-17-12-02></p><p>从类结构来看，可以看到这个方法处于OkHttpClient这个类的一个叫Builder的内部类中</p><p><img src=2020-09-15-17-17-51.png alt=2020-09-15-17-17-51></p><p>利用同样的方式，我们也查看了Java.net.Proxy这个类的结构(proxy方法中需要传入这个参数)</p><p>​ <img src=2020-09-15-17-20-31.png alt=2020-09-15-17-20-31>
+然后可看到<code>NO_PROXY</code>这个参数实际上的内容如下
+<img src=2020-09-15-17-22-02.png alt=2020-09-15-17-22-02></p><p>鉴于以上内容，我们需要hook OkHttpClient的Builder内部类的proxy方法。将参数修改成null即可。
+最终的脚本如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-java data-lang=java><span class=n>console</span><span class=o>.</span><span class=na>log</span><span class=o>(</span><span class=s>&#34;[*] Starting script&#34;</span><span class=o>);</span>
+<span class=n>Java</span><span class=o>.</span><span class=na>perform</span><span class=o>(</span><span class=n>function</span> <span class=o>()</span> <span class=o>{</span>
+    <span class=n>var</span> <span class=n>ss</span> <span class=o>=</span> <span class=n>Java</span><span class=o>.</span><span class=na>use</span><span class=o>(</span><span class=s>&#34;okhttp3.OkHttpClient$Builder&#34;</span><span class=o>);</span>
+
+    <span class=n>ss</span><span class=o>.</span><span class=na>proxy</span><span class=o>.</span><span class=na>implementation</span> <span class=o>=</span> <span class=n>function</span> <span class=o>(</span><span class=n>x</span><span class=o>)</span> <span class=o>{</span>
+        <span class=n>console</span><span class=o>.</span><span class=na>log</span><span class=o>(</span><span class=n>x</span><span class=o>.</span><span class=na>type</span><span class=o>())</span>
+        <span class=n>console</span><span class=o>.</span><span class=na>log</span><span class=o>(</span><span class=n>x</span><span class=o>.</span><span class=na>address</span><span class=o>())</span>
+        <span class=n>console</span><span class=o>.</span><span class=na>log</span><span class=o>(</span><span class=n>x</span><span class=o>)</span>
+        <span class=c1>//以上打印的是java.net.proxy中附带的方法。具体看查看源码
+</span><span class=c1></span>        <span class=k>return</span> <span class=k>this</span><span class=o>.</span><span class=na>proxy</span><span class=o>(</span><span class=kc>null</span><span class=o>)</span>
+    <span class=o>}</span>
+<span class=o>});</span>
+<span class=n>console</span><span class=o>.</span><span class=na>log</span><span class=o>(</span><span class=s>&#34;end&#34;</span><span class=o>);</span>
+</code></pre></td></tr></table></div></div><p>最终运行结果如下，成功让代理获取到数据
+<img src=2020-09-15-17-31-13.png alt=2020-09-15-17-31-13></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Zhe</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2020-09-09</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/burp-extension/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Burp插件解析probuf</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/python%E5%8F%8D%E7%BC%96%E8%AF%91/><span class="next-text nav-default">Python反编译</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=https://zh3-h4ck.github.io class="iconfont icon-github" title=github></a><a href=https://Zh3-H4ck.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020 -
+2021<span class=heart><i class="iconfont icon-heart"></i></span><span>Zhe</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js></script></body></html>

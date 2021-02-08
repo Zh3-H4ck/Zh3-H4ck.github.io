@@ -1,0 +1,78 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Objection上手 - Zhe'BLog</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Zhe"><meta name=description content="objection是基于frida的命令行hook工具，已内置了常用的hook方法，通过输入几句命令，可实现各项功能。 安装 需要先安装Frid"><meta name=generator content="Hugo 0.80.0 with theme even"><link rel=canonical href=https://Zh3-H4ck.github.io/post/frida-objection/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.8e26a09b7b99e8ec3a22900de69b02b568e23ace71d66ebfdb13fa655d365f1f.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Objection上手"><meta property="og:description" content="objection是基于frida的命令行hook工具，已内置了常用的hook方法，通过输入几句命令，可实现各项功能。 安装 需要先安装Frid"><meta property="og:type" content="article"><meta property="og:url" content="https://Zh3-H4ck.github.io/post/frida-objection/"><meta property="article:published_time" content="2020-09-21T17:02:42+08:00"><meta property="article:modified_time" content="2020-09-21T17:02:42+08:00"><meta itemprop=name content="Objection上手"><meta itemprop=description content="objection是基于frida的命令行hook工具，已内置了常用的hook方法，通过输入几句命令，可实现各项功能。 安装 需要先安装Frid"><meta itemprop=datePublished content="2020-09-21T17:02:42+08:00"><meta itemprop=dateModified content="2020-09-21T17:02:42+08:00"><meta itemprop=wordCount content="736"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Objection上手"><meta name=twitter:description content="objection是基于frida的命令行hook工具，已内置了常用的hook方法，通过输入几句命令，可实现各项功能。 安装 需要先安装Frid"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Zhe'Blog</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Zhe'Blog</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Objection上手</h1><div class=post-meta><span class=post-time>2020-09-21</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#安装>安装</a></li><li><a href=#启动>启动</a></li><li><a href=#常用命令>常用命令</a></li><li><a href=#plugins>Plugins</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><p>objection是基于frida的命令行hook工具，已内置了常用的hook方法，通过输入几句命令，可实现各项功能。</p><h3 id=安装>安装</h3><p>需要先安装Frida</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>pip3 install frida
+</code></pre></td></tr></table></div></div><p>安装Frida-Tools</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>pip3 install frida-tools
+</code></pre></td></tr></table></div></div><p>安装Objection</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>pip3 install objection
+</code></pre></td></tr></table></div></div><p>安装完成后，输入<code>objection version</code>可验证是否安装成功
+<img src=assets/2020-09-23-14-17-21.png alt=2020-09-23-14-17-21></p><p>使用前还需要到<a href=https://github.com/frida/frida/releases>这里</a>下载和当前Frida版本、环境架构一致的Frida-Server，并将其放到测试手机上。</p><h3 id=启动>启动</h3><p>先启动手机上的Frida-Server
+<img src=assets/2020-09-23-14-31-19.png alt=2020-09-23-14-31-19>
+使用以下命令启动objection</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>objection -g [process] explore [-P PluginPath]
+</code></pre></td></tr></table></div></div><p><img src=assets/2020-09-23-14-33-53.png alt=2020-09-23-14-33-53>
+至此我们成功启动objection并附加到对应的进程中</p><h3 id=常用命令>常用命令</h3><p>接下来我们将对常用的几个命令进行介绍
+列出应用的所有activity</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>android hooking list activities
+</code></pre></td></tr></table></div></div><p><img src=assets/2020-09-23-14-48-30.png alt=2020-09-23-14-48-30>
+列出应用的所有server</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>android hooking list activities
+</code></pre></td></tr></table></div></div><p><img src=assets/2020-09-23-14-49-33.png alt=2020-09-23-14-49-33>
+还可以列<code>classes</code>和<code>class_methods</code></p><p>根据关键字搜索class或class_methods
+<img src=assets/2020-09-23-14-52-01.png alt=2020-09-23-14-52-01>
+比如,搜索含有关键字getInstance的类</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>android hooking search classes getInstance
+</code></pre></td></tr></table></div></div><p><img src=assets/2020-09-23-15-21-59.png alt=2020-09-23-15-21-59></p><p>hook 方式</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>/*
+hook指定方法, 如果有重载会hook所有重载,如果有疑问可以看
+--dump-args : 打印参数
+--dump-backtrace : 打印调用栈
+--dump-return : 打印返回值
+*/
+android hooking watch class_method com.xxx.xxx.methodName --dump-args --dump-backtrace --dump-return
+
+//hook指定类, 会打印该类下的所以调用
+android hooking watch class com.xxx.xxx
+
+//设置返回值(只支持bool类型)
+android hooking set return_value com.xxx.xxx.methodName false
+</code></pre></td></tr></table></div></div><p>关闭app的ssl校验</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>android sslpinning disable
+</code></pre></td></tr></table></div></div><p>监控系统剪贴板</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>
+//获取Android剪贴板服务上的句柄并每5秒轮询一次用于数据。 如果发现新数据，与之前的调查不同，则该数据将被转储到屏幕上。
+help android  clipboard
+</code></pre></td></tr></table></div></div><p>执行命令行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>help android shell_exec [command]
+</code></pre></td></tr></table></div></div><h3 id=plugins>Plugins</h3><p>如果在加载时附件里PluginPath，objection会自动加载plugins
+例如
+<img src=assets/2020-09-23-15-50-26.png alt=2020-09-23-15-50-26></p><p>介绍下<strong>wallbreaker</strong>的使用（<a href=https://github.com/hluwa/Wallbreaker>下载地址</a>）
+可以看到android内存中的类结构、示例、内部数据等</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>plugin wallbreaker classdump com.xxxx.xxx --fullname
+</code></pre></td></tr></table></div></div><p>例如
+<img src=assets/2020-09-23-15-59-23.png alt=2020-09-23-15-59-23></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Zhe</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2020-09-21</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/objection-plugin/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Objection插件编写</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/burp-extension/><span class="next-text nav-default">Burp插件解析probuf</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=https://zh3-h4ck.github.io class="iconfont icon-github" title=github></a><a href=https://Zh3-H4ck.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020 -
+2021<span class=heart><i class="iconfont icon-heart"></i></span><span>Zhe</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js></script></body></html>

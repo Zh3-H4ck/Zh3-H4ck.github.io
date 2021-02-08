@@ -1,0 +1,339 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Codeql审计goDemo - Zhe'BLog</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Zhe"><meta name=description content="目的 学习codeql，并用其对Vulnerability-goapp进行审计 前期准备 安装codeql 获取codeql-go 安装vscode的"><meta name=generator content="Hugo 0.80.0 with theme even"><link rel=canonical href=https://Zh3-H4ck.github.io/post/codeql-go/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.8e26a09b7b99e8ec3a22900de69b02b568e23ace71d66ebfdb13fa655d365f1f.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Codeql审计goDemo"><meta property="og:description" content="目的 学习codeql，并用其对Vulnerability-goapp进行审计 前期准备 安装codeql 获取codeql-go 安装vscode的"><meta property="og:type" content="article"><meta property="og:url" content="https://Zh3-H4ck.github.io/post/codeql-go/"><meta property="article:published_time" content="2020-09-28T17:22:32+08:00"><meta property="article:modified_time" content="2020-09-28T17:22:32+08:00"><meta itemprop=name content="Codeql审计goDemo"><meta itemprop=description content="目的 学习codeql，并用其对Vulnerability-goapp进行审计 前期准备 安装codeql 获取codeql-go 安装vscode的"><meta itemprop=datePublished content="2020-09-28T17:22:32+08:00"><meta itemprop=dateModified content="2020-09-28T17:22:32+08:00"><meta itemprop=wordCount content="2381"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Codeql审计goDemo"><meta name=twitter:description content="目的 学习codeql，并用其对Vulnerability-goapp进行审计 前期准备 安装codeql 获取codeql-go 安装vscode的"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Zhe'Blog</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Zhe'Blog</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Codeql审计goDemo</h1><div class=post-meta><span class=post-time>2020-09-28</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#目的>目的</a></li><li><a href=#前期准备>前期准备</a></li><li><a href=#生成database>生成database</a></li><li><a href=#导入database>导入database</a></li><li><a href=#codeql-go>codeql-go</a></li><li><a href=#反射型xss>反射型XSS</a></li><li><a href=#修饰符>修饰符</a></li><li><a href=#常用变量和方法>常用变量和方法</a></li><li><a href=#基本漏洞审计>基本漏洞审计</a></li><li><a href=#补充漏洞脚本>补充漏洞脚本</a></li><li><a href=#常见脚本编写步骤>常见脚本编写步骤</a></li><li><a href=#dataflow>DataFlow</a></li><li><a href=#controlflow>ControlFlow</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h3 id=目的>目的</h3><p>学习codeql，并用其对Vulnerability-goapp进行审计</p><h3 id=前期准备>前期准备</h3><ol><li>安装codeql</li><li>获取codeql-go</li><li>安装vscode的codeql插件并配置</li><li>搭建待测平台用于验证问题</li></ol><h3 id=生成database>生成database</h3><p>在Vulnerability-goapp项目的根目录下执行以下命令生成database</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>codeql database create ./codeql -s --language=go
+</code></pre></td></tr></table></div></div><p>这样就算创建成功了
+<img src=assets/2020-10-20-16-19-03.png alt=2020-10-20-16-19-03>
+如果对项目源码进行了修改，则需要删除该文件夹，并重新运行以上命令才能将修改的部分同步到数据库中</p><h3 id=导入database>导入database</h3><p>用插件导入database
+<img src=assets/2020-10-20-16-23-25.png alt=2020-10-20-16-23-25>
+选中我们刚创建的文件夹即可
+<img src=assets/2020-10-21-14-34-03.png alt=2020-10-21-14-34-03>
+以上我们成功设置了codeql和对应项目的信息，接下来就可以进行执行codeql脚本了</p><h3 id=codeql-go>codeql-go</h3><p>codeql-go 自带了一些示例和一些常见漏洞的验证脚本
+示例：codeql-go\ql\example
+漏洞验证脚本（内涵存在对应的漏洞的代码文件)：codeql-go\ql\src\Security
+<img src=assets/2020-10-20-16-28-11.png alt=2020-10-20-16-28-11>
+包括有
+CWE-078：命令注入
+CWE-079：反射型XSS
+CWE-089：SQL注入
+等等</p><p>我们现在就以Vulnerability-goapp为例，来看看实际效果（仅对go语言为主，js的就不看了）</p><table><thead><tr><th>漏洞类型</th><th>是否已有脚本</th><th>是否支持</th></tr></thead><tbody><tr><td>命令注入</td><td>是</td><td>支持</td></tr><tr><td>空指针</td><td>是</td><td>支持</td></tr><tr><td>用户隐私泄露</td><td>是</td><td>支持</td></tr><tr><td>反射型XSS</td><td>是</td><td>支持</td></tr><tr><td>SQL注入</td><td>有</td><td>否</td></tr><tr><td>Cookie未启用httpOnly</td><td>否</td><td>否</td></tr><tr><td>不安全的传输方式</td><td>否</td><td>否</td></tr><tr><td>任意文件上传</td><td>否</td><td>否</td></tr><tr><td>越权</td><td>否</td><td>否</td></tr><tr><td>服务器敏感信息泄露</td><td>否</td><td>否</td></tr><tr><td>存储型XSS</td><td>否</td><td>否</td></tr></tbody></table><h3 id=反射型xss>反射型XSS</h3><p>先来个简单的，反射型XSS
+运行ReflectedXss.ql(codeql\go\ql\src\Security\CWE-079\ReflectedXss.ql)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>/**
+ * @name Reflected cross-site scripting
+ * @description Writing user input directly to an HTTP response allows for
+ *              a cross-site scripting vulnerability.
+ * @kind path-problem
+ * @problem.severity error
+ * @precision high
+ * @id go/reflected-xss
+ * @tags security
+ *       external/cwe/cwe-079
+ *       external/cwe/cwe-116
+ */
+
+import go
+import semmle.go.security.ReflectedXss::ReflectedXss
+import DataFlow::PathGraph
+
+from Configuration cfg, DataFlow::PathNode source, DataFlow::PathNode sink
+where cfg.hasFlowPath(source, sink)
+select sink.getNode(), source, sink, &#34;Cross-site scripting vulnerability due to $@.&#34;,
+  source.getNode(), &#34;user-provided value&#34;
+
+</code></pre></td></tr></table></div></div><p>运行结果：
+<img src=assets/2020-10-27-16-18-16.png alt=2020-10-27-16-18-16></p><p>可以看到数据源和对应的接收器;程序在接收到用户提交的数据后，通过fmt.Fprintf方法写入的一个http.ResponseWriter对象中，导致了反射型XSS</p><p>我们简单的查看下source和sink的定义</p><p>所以需要我们自己写
+存在漏洞的代码如下
+Name是由用户提交上来的数据拼接成的，然后用fmt.Fprintf直接写入到http.ResponseWriter中
+<img src=assets/2020-10-21-11-31-39.png alt=2020-10-21-11-31-39></p><p>Codeql脚本的套路模板</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>class OgnlTaintTrackingCfg extends DataFlow::Configuration {
+  OgnlTaintTrackingCfg() {
+    this = &#34;mapping&#34;
+  }
+
+  override predicate isSource(DataFlow::Node source) {
+    //判断
+  }
+
+  override predicate isSink(DataFlow::Node sink) {
+    //判断
+  }
+  //非必须，
+  override predicate isAdditionalFlowStep(DataFlow::Node node1, DataFlow::Node node2) {
+    TaintTracking::localTaintStep(node1, node2) or
+    exists(Field f, RefType t | node1.asExpr() = f.getAnAssignedValue() and node2.asExpr() = f.getAnAccess() and
+      node1.asExpr().getEnclosingCallable().getDeclaringType() = t and
+      node2.asExpr().getEnclosingCallable().getDeclaringType() = t
+    )
+  }
+}
+
+// 最后是执行查询（好像基本都是这个套路）
+from OgnlTaintTrackingCfg cfg, DataFlow::Node source, DataFlow::Node sink
+where cfg.hasFlow(source, sink)
+select source, sink
+
+</code></pre></td></tr></table></div></div><p>补充反射型xss
+ql\src\semmle\go\security\ReflectedXssCustomizations.qll</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>class HttpResponseBodySink extends Sink, HTTP::ResponseBody {
+    HttpResponseBodySink() { not nonHtmlContentType(this) }
+  }
+//变成
+class HttpResponseBodySink extends Sink, HTTP::ResponseBody {
+    HttpResponseBodySink() { not nonHtmlContentType(this) or
+      exists(DataFlow::CallNode call | call.getTarget().hasQualifiedName(&#34;fmt&#34;, &#34;Fprintf&#34;) |
+        this = call.getArgument(1)
+      ) }
+  }
+</code></pre></td></tr></table></div></div><h3 id=修饰符>修饰符</h3><p>abstract一般用来修饰类和方法。
+1.abstract修饰类
+abstract修饰类，会使得类变成抽象类，抽象类不能生成实例，但是可以作为对象变量声明的类型，也就是编译时类型。抽象类相当于类的半成品，需要子类继承并覆盖其中的方法。
+注意：</p><p>抽象类虽然不能实例化，但是有自己的构造方法。
+抽象类和接口(interface)有很大的不同之处，接口中不能有实例方法去实现业务逻辑，而抽象类可以有实例方法，并实现业务逻辑。
+抽象类不能被final修饰，因为被final修饰的类无法被继承，而对于抽象类来说就是需要通过继承去实现抽象方法。
+2.abstract修饰方法
+abstract修饰方法会使得这个方法变成抽象方法，也就是只有声明，而没有实现，需要子类重写。
+注意：</p><p>有抽象方法的类一定是抽象类，但是抽象类不一定有抽象方法。
+父类是抽象类，其中有抽象方法，那么子类继承父类，并把父类中的所有抽象方法都实现了，子类才有创建对象实例的能力，否则子类也必须是抽象类。抽象类中可以有构造方法，子类在构造子类对象时需要调用父类(抽象类)的构造方法。
+抽象方法不能用private修饰，因为抽象方法必须被子类重写，而private权限对于子类来说是不能访问的，所以就会产生矛盾。
+抽象方法也不能用static修饰，如果用static修饰了，那么我们就可以直接通过类名调用了，而抽象方法压根没有主体，没有任何业务逻辑，这样就毫无意义了。
+我们沉积法</p><p>以命令注入为例
+source为用户请求传入的参数
+sink为exec.Command函数的第三个参数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>import go
+
+// import DataFlow::PathGraph
+private class ParamsGet extends Method {
+  ParamsGet() {
+    this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;FormValue&#34;) or
+    this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;Cookie&#34;) or
+       this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;Get&#34;) or
+       this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;Form&#34;) or
+       this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;PostForm&#34;) or
+       this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;MultiparForm&#34;) or
+       this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;Body&#34;)
+  }
+}
+
+private class Source extends DataFlow::CallNode {
+  Source() { this = any(ParamsGet p).getACall() }
+}
+
+private class Inp extends DataFlow::CallNode {
+  Inp() { this.getTarget().hasQualifiedName(&#34;os/exec&#34;, &#34;Command&#34;) }
+}
+
+private class Sink extends DataFlow::Node {
+  Sink() { this = any(Inp p).getArgument(2) }
+}
+
+class Configuration extends TaintTracking::Configuration {
+  Configuration() { this = &#34;CommandInjection&#34; }
+
+  override predicate isSource(DataFlow::Node source) { source instanceof Source }
+
+  override predicate isSink(DataFlow::Node sink) { sink instanceof Sink }
+}
+
+from Configuration cfg, DataFlow::PathNode source, DataFlow::PathNode sink
+where cfg.hasFlowPath(source, sink)
+select sink.getNode(), source, sink, &#34;This command depends on $@.&#34;, source.getNode(),
+  &#34;a user-provided value&#34;
+
+</code></pre></td></tr></table></div></div><h3 id=常用变量和方法>常用变量和方法</h3><p>DataFlow::ArgumentNode
+作为调用中的参数出现的数据流节点，包括接收方参数
+CallNode
+表示调用的数据流节点</p><p>查找以mysql开头的字符串</p><h3 id=基本漏洞审计>基本漏洞审计</h3><p>class Test extends DataFlow::Node {
+Test() { exists(string c | this.getStringValue() = c | c.substring(0, 5) = &ldquo;mysql&rdquo;) }
+}</p><p>from Test n, DataFlow::CallNode fileReader, DataFlow::CallNode call, Parameter p
+// where
+// call.getTarget().hasQualifiedName(&ldquo;os/exec&rdquo;, &ldquo;Command&rdquo;) and
+// DataFlow::localFlow(n, call.getArgument(2))
+select n</p><p>以命令注入为例</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>import go
+
+// import DataFlow::PathGraph
+private class ParamsGet extends Method {
+  ParamsGet() {
+    this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;FormValue&#34;) or
+    this.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;Cookie&#34;)
+  }
+}
+
+private class Source extends DataFlow::CallNode {
+  Source() { this = any(ParamsGet p).getACall() }
+}
+
+private class Inp extends DataFlow::CallNode {
+  Inp() { this.getTarget().hasQualifiedName(&#34;os/exec&#34;, &#34;Command&#34;) }
+}
+
+private class Sink extends DataFlow::Node {
+  Sink() { this = any(Inp p).getArgument(2) }
+}
+
+class Configuration extends TaintTracking::Configuration {
+  Configuration() { this = &#34;CommandInjection&#34; }
+
+  override predicate isSource(DataFlow::Node source) { source instanceof Source }
+
+  override predicate isSink(DataFlow::Node sink) { sink instanceof Sink }
+}
+
+from Configuration cfg, DataFlow::PathNode source, DataFlow::PathNode sink
+where cfg.hasFlowPath(source, sink)
+select sink.getNode(), source, sink, &#34;This command depends on $@.&#34;, source.getNode(),
+  &#34;a user-provided value&#34;
+
+</code></pre></td></tr></table></div></div><h3 id=补充漏洞脚本>补充漏洞脚本</h3><h3 id=常见脚本编写步骤>常见脚本编写步骤</h3><p>找sink
+由sink找到source</p><p>字段读取、匹配判断语句</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>from DataFlow::Node s, DataFlow::CallNode c, DataFlow::Node n, ComparisonExpr comp
+where
+  s = any(Field f | f.hasQualifiedName(&#34;net/http&#34;, &#34;Request&#34;, &#34;Method&#34;)).getARead() and
+  comp.getAnOperand() = s.asExpr() and
+  comp.getAnOperand().getStringValue() = &#34;POST&#34;
+select comp
+</code></pre></td></tr></table></div></div><h3 id=dataflow>DataFlow</h3><p>DataFlow::CallNode：如果调用系统函数的话，用Builtin::len()=>len()</p><h3 id=controlflow>ControlFlow</h3></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Zhe</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2020-09-28</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/codeql-for-vulnerability-goapp/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Codeql for Vulnerability Goapp</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/objection-plugin/><span class="next-text nav-default">Objection插件编写</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=https://zh3-h4ck.github.io class="iconfont icon-github" title=github></a><a href=https://Zh3-H4ck.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020 -
+2021<span class=heart><i class="iconfont icon-heart"></i></span><span>Zhe</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js></script></body></html>

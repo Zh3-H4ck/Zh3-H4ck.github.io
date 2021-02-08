@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://Zh3-H4ck.github.io/sitemap.xml

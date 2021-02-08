@@ -1,0 +1,421 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Objection插件编写 - Zhe'BLog</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Zhe"><meta name=description content="目的 写一个插件 功能 自动hook加解密的函数 需要哪些关键点 自动hook 自动将参数和返回结果中的byte数组转成字符串 实例分析 简单编写hook以"><meta name=generator content="Hugo 0.80.0 with theme even"><link rel=canonical href=https://Zh3-H4ck.github.io/post/objection-plugin/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.8e26a09b7b99e8ec3a22900de69b02b568e23ace71d66ebfdb13fa655d365f1f.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Objection插件编写"><meta property="og:description" content="目的 写一个插件 功能 自动hook加解密的函数 需要哪些关键点 自动hook 自动将参数和返回结果中的byte数组转成字符串 实例分析 简单编写hook以"><meta property="og:type" content="article"><meta property="og:url" content="https://Zh3-H4ck.github.io/post/objection-plugin/"><meta property="article:published_time" content="2020-09-23T16:13:24+08:00"><meta property="article:modified_time" content="2020-09-23T16:13:24+08:00"><meta itemprop=name content="Objection插件编写"><meta itemprop=description content="目的 写一个插件 功能 自动hook加解密的函数 需要哪些关键点 自动hook 自动将参数和返回结果中的byte数组转成字符串 实例分析 简单编写hook以"><meta itemprop=datePublished content="2020-09-23T16:13:24+08:00"><meta itemprop=dateModified content="2020-09-23T16:13:24+08:00"><meta itemprop=wordCount content="1805"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Objection插件编写"><meta name=twitter:description content="目的 写一个插件 功能 自动hook加解密的函数 需要哪些关键点 自动hook 自动将参数和返回结果中的byte数组转成字符串 实例分析 简单编写hook以"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Zhe'Blog</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Zhe'Blog</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Objection插件编写</h1><div class=post-meta><span class=post-time>2020-09-23</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#目的>目的</a></li><li><a href=#功能>功能</a></li><li><a href=#需要哪些关键点>需要哪些关键点</a></li><li><a href=#实例分析>实例分析</a></li><li><a href=#结合官方文档查看示例结构>结合官方文档查看示例结构</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h3 id=目的>目的</h3><p>写一个插件</p><h3 id=功能>功能</h3><p>自动hook加解密的函数</p><h3 id=需要哪些关键点>需要哪些关键点</h3><ol><li>自动hook</li><li>自动将参数和返回结果中的byte数组转成字符串</li></ol><h3 id=实例分析>实例分析</h3><p>简单编写hook以下方法的frida脚本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-java data-lang=java><span class=n>javax</span><span class=o>.</span><span class=na>crypto</span><span class=o>.</span><span class=na>spec</span><span class=o>.</span><span class=na>SecretKeySpec</span><span class=o>.</span><span class=na>$init</span>
+<span class=n>javax</span><span class=o>.</span><span class=na>crypto</span><span class=o>.</span><span class=na>Cipher</span><span class=o>.</span><span class=na>getInstance</span>
+<span class=n>javax</span><span class=o>.</span><span class=na>crypto</span><span class=o>.</span><span class=na>Cipher</span><span class=o>.</span><span class=na>doFinal</span>
+<span class=n>javax</span><span class=o>.</span><span class=na>crypto</span><span class=o>.</span><span class=na>Mac</span><span class=o>.</span><span class=na>getInstance</span>
+<span class=n>javax</span><span class=o>.</span><span class=na>crypto</span><span class=o>.</span><span class=na>Mac</span><span class=o>.</span><span class=na>doFinal</span>
+<span class=n>java</span><span class=o>.</span><span class=na>security</span><span class=o>.</span><span class=na>MessageDigest</span><span class=o>.</span><span class=na>getInstance</span>
+<span class=n>java</span><span class=o>.</span><span class=na>security</span><span class=o>.</span><span class=na>MessageDigest</span><span class=o>.</span><span class=na>digest</span>
+</code></pre></td></tr></table></div></div><p>frida脚本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;[*] Starting script&#34;</span><span class=p>);</span>
+<span class=nx>Java</span><span class=p>.</span><span class=nx>perform</span><span class=p>(</span><span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+    <span class=kd>var</span> <span class=nx>SecretKeySpecClass</span> <span class=o>=</span> <span class=nx>Java</span><span class=p>.</span><span class=nx>use</span><span class=p>(</span><span class=s2>&#34;javax.crypto.spec.SecretKeySpec&#34;</span><span class=p>);</span>
+
+    <span class=kd>var</span> <span class=nx>JavaString</span> <span class=o>=</span> <span class=nx>Java</span><span class=p>.</span><span class=nx>use</span><span class=p>(</span><span class=s2>&#34;java.lang.String&#34;</span><span class=p>);</span>
+    <span class=nx>SecretKeySpecClass</span><span class=p>.</span><span class=nx>$init</span><span class=p>.</span><span class=nx>overload</span><span class=p>(</span><span class=s1>&#39;[B&#39;</span><span class=p>,</span> <span class=s1>&#39;java.lang.String&#39;</span><span class=p>).</span><span class=nx>implementation</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>x</span><span class=p>,</span> <span class=nx>y</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;方法:&#34;</span> <span class=o>+</span> <span class=nx>y</span><span class=p>);</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;密钥:&#34;</span> <span class=o>+</span> <span class=nx>JavaString</span><span class=p>.</span><span class=nx>$new</span><span class=p>(</span><span class=nx>x</span><span class=p>));</span>
+        <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>$init</span><span class=p>(</span><span class=nx>x</span><span class=p>,</span> <span class=nx>y</span><span class=p>)</span>
+    <span class=p>}</span>
+
+    <span class=kd>var</span> <span class=nx>MacClass</span> <span class=o>=</span> <span class=nx>Java</span><span class=p>.</span><span class=nx>use</span><span class=p>(</span><span class=s2>&#34;javax.crypto.Mac&#34;</span><span class=p>);</span>
+    <span class=kd>var</span> <span class=nx>CipherClass</span> <span class=o>=</span> <span class=nx>Java</span><span class=p>.</span><span class=nx>use</span><span class=p>(</span><span class=s2>&#34;javax.crypto.Cipher&#34;</span><span class=p>);</span>
+    <span class=kd>var</span> <span class=nx>MessageClass</span> <span class=o>=</span> <span class=nx>Java</span><span class=p>.</span><span class=nx>use</span><span class=p>(</span><span class=s2>&#34;java.security.MessageDigest&#34;</span><span class=p>)</span>
+
+    <span class=nx>CipherClass</span><span class=p>.</span><span class=nx>getInstance</span><span class=p>.</span><span class=nx>overload</span><span class=p>(</span><span class=s2>&#34;java.lang.String&#34;</span><span class=p>).</span><span class=nx>implementation</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;模式:&#34;</span> <span class=o>+</span> <span class=nx>x</span><span class=p>);</span>
+        <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>getInstance</span><span class=p>(</span><span class=nx>x</span><span class=p>)</span>
+    <span class=p>}</span>
+    <span class=nx>CipherClass</span><span class=p>.</span><span class=nx>doFinal</span><span class=p>.</span><span class=nx>overload</span><span class=p>(</span><span class=s1>&#39;[B&#39;</span><span class=p>).</span><span class=nx>implementation</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;待加密内容:&#34;</span> <span class=o>+</span> <span class=nx>JavaString</span><span class=p>.</span><span class=nx>$new</span><span class=p>(</span><span class=nx>x</span><span class=p>));</span>
+        <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>doFinal</span><span class=p>(</span><span class=nx>x</span><span class=p>)</span>
+    <span class=p>}</span>
+    <span class=nx>MacClass</span><span class=p>.</span><span class=nx>getInstance</span><span class=p>.</span><span class=nx>overload</span><span class=p>(</span><span class=s2>&#34;java.lang.String&#34;</span><span class=p>).</span><span class=nx>implementation</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;算法:&#34;</span> <span class=o>+</span> <span class=nx>x</span><span class=p>);</span>
+        <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>getInstance</span><span class=p>(</span><span class=nx>x</span><span class=p>)</span>
+    <span class=p>}</span>
+    <span class=nx>MacClass</span><span class=p>.</span><span class=nx>doFinal</span><span class=p>.</span><span class=nx>overload</span><span class=p>(</span><span class=s1>&#39;[B&#39;</span><span class=p>).</span><span class=nx>implementation</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;待加密内容:&#34;</span> <span class=o>+</span> <span class=nx>JavaString</span><span class=p>.</span><span class=nx>$new</span><span class=p>(</span><span class=nx>x</span><span class=p>));</span>
+        <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>doFinal</span><span class=p>(</span><span class=nx>x</span><span class=p>)</span>
+    <span class=p>}</span>
+    <span class=nx>MessageClass</span><span class=p>.</span><span class=nx>getInstance</span><span class=p>.</span><span class=nx>overload</span><span class=p>(</span><span class=s2>&#34;java.lang.String&#34;</span><span class=p>).</span><span class=nx>implementation</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;算法:&#34;</span> <span class=o>+</span> <span class=nx>x</span><span class=p>);</span>
+        <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>getInstance</span><span class=p>(</span><span class=nx>x</span><span class=p>)</span>
+    <span class=p>}</span>
+    <span class=nx>MessageClass</span><span class=p>.</span><span class=nx>digest</span><span class=p>.</span><span class=nx>overload</span><span class=p>(</span><span class=s1>&#39;[B&#39;</span><span class=p>).</span><span class=nx>implementation</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;待加密内容:&#34;</span> <span class=o>+</span> <span class=nx>JavaString</span><span class=p>.</span><span class=nx>$new</span><span class=p>(</span><span class=nx>x</span><span class=p>));</span>
+        <span class=k>return</span> <span class=k>this</span><span class=p>.</span><span class=nx>digest</span><span class=p>(</span><span class=nx>x</span><span class=p>)</span>
+
+    <span class=p>}</span>
+<span class=p>});</span>
+<span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s2>&#34;end&#34;</span><span class=p>);</span>
+</code></pre></td></tr></table></div></div><p>脚本执行结果如下
+<img src=assets/2020-09-28-10-37-56.png alt=2020-09-28-10-37-56></p><p>接下来将frida脚本移植到objection工具中。
+<a href=https://github.com/sensepost/objection/wiki/Plugins#example-plugins>官方文档</a>
+<a href=https://github.com/sensepost/objection/blob/master/tests/data/plugin/__init__.py>实例插件</a></p><p>下载示例后，在C:/Users/当前用户/.objection/plugins/下创建tmp文件夹，将示例放入</p><p><img src=assets/2020-09-28-10-50-48.png alt=2020-09-28-10-50-48></p><p>使用命令启动objection</p><p><code>objection -g com.example.fridatest explore -P C:\Users\DH\.objection\plugins</code>
+<img src=assets/2020-09-28-10-53-03.png alt=2020-09-28-10-53-03></p><p>提示已加载version插件</p><p>输入命令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>plugin version info
+</code></pre></td></tr></table></div></div><p><img src=assets/2020-09-28-10-54-25.png alt=2020-09-28-10-54-25></p><p>页面返回Frida版本号，说明插件运行成功</p><h3 id=结合官方文档查看示例结构>结合官方文档查看示例结构</h3><p><code>namespace</code>声明了插件名称</p><p><code>plugin</code>该变量指明继承<code>objection.utils.plugin.Plugin</code>插件类的一个实例</p><p>插件中的两个变量</p><p><code>self.script_src</code>:脚本内容</p><p><code>self.script_path</code>脚本路径</p><p>二者选其一即可</p><p>完整的示例如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=n>__description__</span> <span class=o>=</span> <span class=s2>&#34;An example plugin, also used in a UnitTest&#34;</span>
+
+<span class=kn>from</span> <span class=nn>objection.utils.plugin</span> <span class=kn>import</span> <span class=n>Plugin</span>
+
+<span class=n>s</span> <span class=o>=</span> <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>rpc.exports = {
+</span><span class=s2>    getInformation: function() {
+</span><span class=s2>        console.log(&#39;hello from Frida&#39;);    // direct output
+</span><span class=s2>        send(&#39;Incoming message&#39;);           // output via send for &#39;message&#39; signal
+</span><span class=s2>        return Frida.version;               // return type
+</span><span class=s2>    }
+</span><span class=s2>}
+</span><span class=s2>&#34;&#34;&#34;</span>
+
+
+<span class=k>class</span> <span class=nc>VersionInfo</span><span class=p>(</span><span class=n>Plugin</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34; VersionInfo is a sample plugin to get Frida version information &#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>ns</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>            Creates a new instance of the plugin
+</span><span class=s2>            :param ns:
+</span><span class=s2>        &#34;&#34;&#34;</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>script_src</span> <span class=o>=</span> <span class=n>s</span>
+        <span class=c1># self.script_path = os.path.join(os.path.dirname(__file__), &#34;script.js&#34;)</span>
+
+        <span class=n>implementation</span> <span class=o>=</span> <span class=p>{</span>
+            <span class=s1>&#39;meta&#39;</span><span class=p>:</span> <span class=s1>&#39;Work with Frida version information&#39;</span><span class=p>,</span><span class=o>//</span><span class=err>工具说明</span>
+            <span class=s1>&#39;commands&#39;</span><span class=p>:</span> <span class=p>{</span><span class=o>//</span><span class=err>工具中的命令列表</span>
+                <span class=s1>&#39;info&#39;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=s1>&#39;meta&#39;</span><span class=p>:</span> <span class=s1>&#39;Get the current Frida version&#39;</span><span class=p>,</span><span class=o>//</span><span class=err>命令说明</span>
+                    <span class=s1>&#39;exec&#39;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>version</span>    <span class=o>//</span><span class=err>命令执行时会调用的方法</span>
+                <span class=p>}</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=vm>__file__</span><span class=p>,</span> <span class=n>ns</span><span class=p>,</span> <span class=n>implementation</span><span class=p>)</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>inject</span><span class=p>()</span>
+
+    <span class=k>def</span> <span class=nf>version</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>args</span><span class=p>:</span> <span class=nb>list</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>            Tests a plugin by calling an RPC export method
+</span><span class=s2>            called getInformation, and printing the result.
+</span><span class=s2>            :param args:
+</span><span class=s2>            :return:
+</span><span class=s2>        &#34;&#34;&#34;</span>
+
+        <span class=n>v</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>api</span><span class=o>.</span><span class=n>get_information</span><span class=p>()</span> <span class=o>//</span><span class=err>由</span><span class=n>rpc</span><span class=o>.</span><span class=n>export导出的方法</span>
+        <span class=k>print</span><span class=p>(</span><span class=s1>&#39;Frida version: {0}&#39;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>v</span><span class=p>))</span>
+
+
+<span class=n>namespace</span> <span class=o>=</span> <span class=s1>&#39;version&#39;</span>
+<span class=n>plugin</span> <span class=o>=</span> <span class=n>VersionInfo</span>
+
+</code></pre></td></tr></table></div></div><p>基于以上内容我们修改示例</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span><span class=lnt>95
+</span><span class=lnt>96
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=n>__description__</span> <span class=o>=</span> <span class=s2>&#34;An example plugin, also used in a UnitTest&#34;</span>
+
+<span class=kn>from</span> <span class=nn>objection.utils.plugin</span> <span class=kn>import</span> <span class=n>Plugin</span>
+
+<span class=n>s</span> <span class=o>=</span> <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>rpc.exports = {
+</span><span class=s2>    getEncrypthook: function () {
+</span><span class=s2>        该函数内容是我们的frida脚本
+</span><span class=s2>        console.log(&#34;[*] Starting script&#34;);
+</span><span class=s2>        Java.perform(function () {
+</span><span class=s2>            var SecretKeySpecClass = Java.use(&#34;javax.crypto.spec.SecretKeySpec&#34;);
+</span><span class=s2>
+</span><span class=s2>            var JavaString = Java.use(&#34;java.lang.String&#34;);
+</span><span class=s2>            SecretKeySpecClass.$init.overload(&#39;[B&#39;, &#39;java.lang.String&#39;).implementation = function (x, y) {
+</span><span class=s2>                console.log(&#34;方法:&#34; + y);
+</span><span class=s2>                console.log(&#34;密钥:&#34; + JavaString.$new(x));
+</span><span class=s2>                return this.$init(x, y)
+</span><span class=s2>            }
+</span><span class=s2>
+</span><span class=s2>            var MacClass = Java.use(&#34;javax.crypto.Mac&#34;);
+</span><span class=s2>            var CipherClass = Java.use(&#34;javax.crypto.Cipher&#34;);
+</span><span class=s2>            var MessageClass = Java.use(&#34;java.security.MessageDigest&#34;)
+</span><span class=s2>
+</span><span class=s2>            CipherClass.getInstance.overload(&#34;java.lang.String&#34;).implementation = function (x) {
+</span><span class=s2>                console.log(&#34;模式:&#34; + x);
+</span><span class=s2>                return this.getInstance(x)
+</span><span class=s2>            }
+</span><span class=s2>            CipherClass.doFinal.overload(&#39;[B&#39;).implementation = function (x) {
+</span><span class=s2>                console.log(&#34;待加密内容:&#34; + JavaString.$new(x));
+</span><span class=s2>                return this.doFinal(x)
+</span><span class=s2>            }
+</span><span class=s2>            MacClass.getInstance.overload(&#34;java.lang.String&#34;).implementation = function (x) {
+</span><span class=s2>                console.log(&#34;算法:&#34; + x);
+</span><span class=s2>                return this.getInstance(x)
+</span><span class=s2>            }
+</span><span class=s2>            MacClass.doFinal.overload(&#39;[B&#39;).implementation = function (x) {
+</span><span class=s2>                console.log(&#34;待加密内容:&#34; + JavaString.$new(x));
+</span><span class=s2>                return this.doFinal(x)
+</span><span class=s2>            }
+</span><span class=s2>            MessageClass.getInstance.overload(&#34;java.lang.String&#34;).implementation = function (x) {
+</span><span class=s2>                console.log(&#34;算法:&#34; + x);
+</span><span class=s2>                return this.getInstance(x)
+</span><span class=s2>            }
+</span><span class=s2>            MessageClass.digest.overload(&#39;[B&#39;).implementation = function (x) {
+</span><span class=s2>                console.log(&#34;待加密内容:&#34; + JavaString.$new(x));
+</span><span class=s2>                return this.digest(x)
+</span><span class=s2>
+</span><span class=s2>            }
+</span><span class=s2>        });
+</span><span class=s2>        console.log(&#34;end&#34;);
+</span><span class=s2>    }
+</span><span class=s2>}
+</span><span class=s2>&#34;&#34;&#34;</span>
+
+
+<span class=k>class</span> <span class=nc>VersionInfo</span><span class=p>(</span><span class=n>Plugin</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34; VersionInfo is a sample plugin to get Frida version information &#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>ns</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>            Creates a new instance of the plugin
+</span><span class=s2>            :param ns:
+</span><span class=s2>        &#34;&#34;&#34;</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>script_src</span> <span class=o>=</span> <span class=n>s</span>
+        <span class=c1># self.script_path = os.path.join(os.path.dirname(__file__), &#34;script.js&#34;)</span>
+
+        <span class=n>implementation</span> <span class=o>=</span> <span class=p>{</span>
+            <span class=s1>&#39;meta&#39;</span><span class=p>:</span> <span class=s1>&#39;Work with Frida version information&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;commands&#39;</span><span class=p>:</span> <span class=p>{</span>
+
+                <span class=s1>&#39;hook&#39;</span><span class=p>:</span> <span class=p>{</span><span class=o>//</span><span class=err>补充上我们的命令，以及需要调用的方法</span>
+                    <span class=s1>&#39;meta&#39;</span><span class=p>:</span> <span class=s1>&#39;hook 加密方法&#39;</span><span class=p>,</span>
+                    <span class=s1>&#39;exec&#39;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>HookEncrypt</span>
+                <span class=p>}</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=vm>__file__</span><span class=p>,</span> <span class=n>ns</span><span class=p>,</span> <span class=n>implementation</span><span class=p>)</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>inject</span><span class=p>()</span>
+
+    <span class=k>def</span> <span class=nf>HookEncrypt</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>args</span><span class=p>:</span> <span class=nb>list</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>            Tests a plugin by calling an RPC export method
+</span><span class=s2>            called getInformation, and printing the result.
+</span><span class=s2>            :param args:
+</span><span class=s2>            :return:
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=n>v</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>api</span><span class=o>.</span><span class=n>get_encrypthook</span><span class=p>()</span>
+        <span class=o>//</span><span class=err>该方法需要与上面</span><span class=n>js脚本中的rpc</span><span class=o>.</span><span class=n>exports中的方法对应</span><span class=err>，例如</span><span class=n>getEncrypthook</span><span class=o>=&gt;</span><span class=n>get_encrypthook</span><span class=p>,</span><span class=err>如果是</span><span class=n>getVersion</span><span class=o>=&gt;</span><span class=n>get_version</span><span class=err>。</span>
+
+
+
+<span class=n>namespace</span> <span class=o>=</span> <span class=s1>&#39;encryptTest&#39;</span>
+<span class=n>plugin</span> <span class=o>=</span> <span class=n>VersionInfo</span>
+</code></pre></td></tr></table></div></div><p>以上脚本编写完成。</p><p>再次运行objection，并运行插件。</p><p><img src=assets/2020-09-28-11-06-18.png alt=2020-09-28-11-06-18></p><p>任意执行测试app中的加密后，工具返回结果</p><p><img src=assets/2020-09-28-11-07-51.png alt=2020-09-28-11-07-51></p><p>到这里我们就将我们的脚本移植到objection上了。</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Zhe</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2020-09-23</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/codeql-go/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Codeql审计goDemo</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/frida-objection/><span class="next-text nav-default">Objection上手</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=https://zh3-h4ck.github.io class="iconfont icon-github" title=github></a><a href=https://Zh3-H4ck.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020 -
+2021<span class=heart><i class="iconfont icon-heart"></i></span><span>Zhe</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js></script></body></html>
