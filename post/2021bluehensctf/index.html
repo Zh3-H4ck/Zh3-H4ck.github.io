@@ -1,0 +1,217 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>2021 BlueHens CTF 2021 - Zhe'BLog</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Zhe"><meta name=description content="题目 标题 类型 watman re 解题 访问该地址 F12查看源码 可以看到页面代码较为简单，主要为一张图片一个whtml还有一个wasm文件，所以这题主要考验wa"><meta name=generator content="Hugo 0.80.0 with theme even"><link rel=canonical href=https://Zh3-H4ck.github.io/post/2021bluehensctf/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.8e26a09b7b99e8ec3a22900de69b02b568e23ace71d66ebfdb13fa655d365f1f.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="2021 BlueHens CTF 2021"><meta property="og:description" content="题目 标题 类型 watman re 解题 访问该地址 F12查看源码 可以看到页面代码较为简单，主要为一张图片一个whtml还有一个wasm文件，所以这题主要考验wa"><meta property="og:type" content="article"><meta property="og:url" content="https://Zh3-H4ck.github.io/post/2021bluehensctf/"><meta property="article:published_time" content="2021-03-30T18:24:52+08:00"><meta property="article:modified_time" content="2021-03-30T18:24:52+08:00"><meta itemprop=name content="2021 BlueHens CTF 2021"><meta itemprop=description content="题目 标题 类型 watman re 解题 访问该地址 F12查看源码 可以看到页面代码较为简单，主要为一张图片一个whtml还有一个wasm文件，所以这题主要考验wa"><meta itemprop=datePublished content="2021-03-30T18:24:52+08:00"><meta itemprop=dateModified content="2021-03-30T18:24:52+08:00"><meta itemprop=wordCount content="1412"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="2021 BlueHens CTF 2021"><meta name=twitter:description content="题目 标题 类型 watman re 解题 访问该地址 F12查看源码 可以看到页面代码较为简单，主要为一张图片一个whtml还有一个wasm文件，所以这题主要考验wa"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Zhe'Blog</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Zhe'Blog</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>2021 BlueHens CTF 2021</h1><div class=post-meta><span class=post-time>2021-03-30</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#题目>题目</a></li><li><a href=#解题>解题</a></li><li><a href=#相关指令集>相关指令集</a><ul><li><a href=#基本指令>基本指令</a></li><li><a href=#控制指令--分支>控制指令 – 分支</a></li><li><a href=#控制指令--循环>控制指令 – 循环</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=题目>题目</h2><table><thead><tr><th>标题</th><th>类型</th></tr></thead><tbody><tr><td>watman</td><td>re</td></tr></tbody></table><p><img src=image-20210330200708967.png alt=image-20210330200708967></p><h2 id=解题>解题</h2><p>访问该地址</p><p><img src=image-20210330200758480.png alt=image-20210330200758480></p><p>F12查看源码</p><p><img src=image-20210330200855915.png alt=image-20210330200855915></p><p>可以看到页面代码较为简单，主要为一张图片一个whtml还有一个wasm文件，所以这题主要考验wasm逆向</p><p>首先我们从html代码中，可以看出，flagChecker是由checker.wasm导出的方法，点击按钮后，执行该方法</p><p>flagChecker接收三个参数，分别是由输入框内容经encode变换后的数组、128、257</p><blockquote><p>WebAssembly（缩写为<em>Wasm</em>）是基于堆栈的虚拟机的二进制指令格式。Wasm被设计为可编程C / C ++ / Rust等高级语言的可移植目标，可在Web上部署客户端和服务器应用程序。</p><p>wasm是基于堆栈的虚拟机的二进制指令格式。与x86架构的汇编又很大的区别。</p><p>进一步的说明后续补充</p></blockquote><p>我们可以从开发者工具中看到cheker.wasm的相关指令，下图为flagChecker的代码</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>(func $flagChecker (;0;) (param $var0 i32) (param $var1 i32) (param $var2 i32) (result i32)
+    (local $var3 i32) (local $var4 i32) (local $var5 i32) (local $var6 i32) (local $var7 i32)
+    i32.const 1
+    local.set $var3
+    local.get $var0
+    i32.load
+    local.tee $var4
+    local.get $var1
+    i32.mul
+    local.get $var2
+    i32.rem_s
+    i32.const 86
+    i32.eq
+    if (result i32)
+      i32.const 0
+      local.set $var3
+      loop $label0
+        local.get $var3
+        local.tee $var5
+        i32.const 1
+        i32.add
+        local.tee $var3
+        i32.const 28
+        i32.ne
+        if
+          local.get $var4
+          i32.const 1
+          i32.and
+          local.set $var6
+          local.get $var0
+          local.get $var3
+          i32.const 2
+          i32.shl
+          local.tee $var7
+          i32.add
+          i32.load
+          local.tee $var4
+          i32.const -1
+          i32.const 1
+          local.get $var6
+          select
+          local.get $var1
+          i32.add
+          local.tee $var1
+          i32.mul
+          local.get $var2
+          i32.rem_s
+          local.get $var7
+          i32.const 1024
+          i32.add
+          i32.load
+          i32.eq
+          br_if $label0
+        end
+      end $label0
+      local.get $var5
+      i32.const 27
+      i32.lt_u
+    else
+      local.get $var3
+    end
+  )
+</code></pre></td></tr></table></div></div><p>动态调试时可通过Chrome的调试功能，下断点进行调试。</p><h2 id=相关指令集>相关指令集</h2><p>可参考以下指令集</p><h3 id=基本指令>基本指令</h3><p>这里简单介绍一下大量用到的基本指令：</p><h4 id=localgetget_local><code>local.get</code>（<code>get_local</code>）</h4><p>从函数的参数中读取内容，示例和下一条一起（</p><h4 id=localsetset_local><code>local.set</code>（<code>set_local</code>）</h4><p>基本的用途是向本地变量中写入值，如下例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>(func (arg i32) (local i32 i32)
+  local.get 0 ;; 从 local#0 中取出数据并压入栈中
+  local.set 1 ;; 从栈中弹出数据并存入 local#1 中
+}
+</code></pre></td></tr></table></div></div><h4 id=localtee><code>local.tee</code></h4><p>它同样是用来向本地变量写入值的，但它写入之后原值仍然保留在栈中，相当于省了一步 <code>local.get</code>。</p><h4 id=i32const><code>i32.const</code></h4><p>这个之前也提到过了，向站内压入一个数字，对应的还有其他三种类型的 <code>.const</code>，这里就不再重复了。</p><h4 id=i32add-等><code>i32.add</code> 等</h4><p>这里的等指的是一系列算术运算，我们只是单独拿出 <code>add</code> 来举例。它弹出栈顶的两个元素并将其相加，最终将结果压入栈中。</p><p>其中包括i32.mul(乘)、i32.rem_s(取余)</p><h4 id=i32load-和-i32store><code>i32.load</code> 和 <code>i32.store</code></h4><p>顾名思义，从 <code>Memory</code> 中取出/向 <code>Memory</code> 存入数据的指令。</p><p><code>load</code> 接受一个参数，就是地址；<code>store</code> 接收两个参数：先弹出需要存入的值，再弹出存入的地址。</p><p>这二者还经常带有特殊的属性：<code>offset</code> 表示 <code>n</code> 位的偏移，<code>align</code> 表示 <code>2^n</code> 位的偏移。</p><h3 id=控制指令--分支>控制指令 – 分支</h3><p>分支最常使用是 <code>if</code>，如下例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>(func (arg i32 i32) (result i32)
+
+  local.get 0
+
+  local.get 1
+
+  i32.ne
+
+  if (result i32)
+
+​    local.get 0
+
+  else
+
+​    local.get 1
+
+  end
+
+)
+</code></pre></td></tr></table></div></div><p>这里需要注意的是，<code>if</code> 的判断过程都是在 <code>if</code> 之前进行的，<code>if</code> 本身只能从栈中弹出一个元素，并且判断其是否为 0，非 0 则成立。</p><p>这里需要介绍的一条指令是 <code>if_br</code>，它可以跳出当前的块。<code>if_br 1</code> 就相当于跳出当前的 <code>if</code>，回到 <code>if</code> 开头重新判断。</p><p>还有一种判断指令：<code>select</code>。<code>select</code> 接收三个参数：<code>a</code>、<code>b</code> 和 <code>condition</code>。在判断时，<code>condition</code> 位于栈顶被首先弹出，当 <code>condition</code> 成立时，向栈中压入 <code>a</code>，否则就压入 <code>b</code>。</p><h3 id=控制指令--循环>控制指令 – 循环</h3><p>循环使用的是 <code>loop</code>，和 <code>if</code> 一样，它也并没有实际的意义，跳转需要通过 <code>br</code> 进行。</p><hr><p>基于以上指令和动态调试的结果</p><p>可以还原flag验证脚本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=kn>import</span> <span class=nn>string</span>
+
+<span class=n>verify</span><span class=o>=</span><span class=p>[</span><span class=mi>86</span><span class=p>,</span><span class=mi>155</span><span class=p>,</span><span class=mi>95</span><span class=p>,</span><span class=mi>131</span><span class=p>,</span><span class=mi>222</span><span class=p>,</span><span class=mi>190</span><span class=p>,</span><span class=mi>69</span><span class=p>,</span><span class=mi>101</span><span class=p>,</span><span class=mi>233</span><span class=p>,</span><span class=mi>177</span><span class=p>,</span><span class=mi>81</span><span class=p>,</span><span class=mi>207</span><span class=p>,</span><span class=mi>127</span><span class=p>,</span><span class=mi>213</span><span class=p>,</span><span class=mi>113</span><span class=p>,</span><span class=mi>53</span><span class=p>,</span><span class=mi>170</span><span class=p>,</span><span class=mi>94</span><span class=p>,</span><span class=mi>25</span><span class=p>,</span><span class=mi>218</span><span class=p>,</span><span class=mi>217</span><span class=p>,</span><span class=mi>158</span><span class=p>,</span><span class=mi>25</span><span class=p>,</span><span class=mi>249</span><span class=p>,</span><span class=mi>72</span><span class=p>,</span><span class=mi>218</span><span class=p>,</span><span class=mi>67</span><span class=p>,</span><span class=mi>219</span><span class=p>]</span>
+
+
+
+<span class=n>ss</span><span class=o>=</span> <span class=n>string</span><span class=o>.</span><span class=n>printable</span>
+<span class=n>ff</span><span class=o>=</span><span class=s2>&#34;U&#34;</span>
+<span class=n>t</span><span class=o>=</span><span class=mi>128</span>
+<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=nb>len</span><span class=p>(</span><span class=n>verify</span><span class=p>)):</span>
+    <span class=k>print</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>ff</span><span class=p>),</span><span class=n>i</span><span class=p>)</span>
+    <span class=n>a</span><span class=o>=-</span><span class=mi>1</span> <span class=k>if</span> <span class=nb>ord</span><span class=p>(</span><span class=n>ff</span><span class=p>[</span><span class=n>i</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span><span class=o>&amp;</span><span class=mi>1</span> <span class=k>else</span> <span class=mi>1</span>
+    <span class=n>t</span><span class=o>=</span><span class=n>t</span><span class=o>+</span><span class=n>a</span>
+    <span class=k>for</span> <span class=n>s</span> <span class=ow>in</span> <span class=n>ss</span><span class=p>:</span>
+        <span class=k>if</span> <span class=nb>ord</span><span class=p>(</span><span class=n>s</span><span class=p>)</span><span class=o>*</span><span class=n>t</span><span class=o>%</span><span class=mi>257</span><span class=o>==</span><span class=n>verify</span><span class=p>[</span><span class=n>i</span><span class=p>]:</span>
+            <span class=n>ff</span><span class=o>=</span><span class=n>ff</span><span class=o>+</span><span class=n>s</span>
+<span class=k>print</span><span class=p>(</span><span class=n>ff</span><span class=p>)</span>
+<span class=c1>#output:UDCTF{wh0a_w4sm_i5_lit_y4l1}</span>
+</code></pre></td></tr></table></div></div><p><img src=image-20210330193426958.png alt=image-20210330193426958></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Zhe</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2021-03-30</span></p></div><footer class=post-footer><nav class=post-nav><a class=next href=/post/2021dicectf/><span class="next-text nav-default">2021DiceCTF</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=https://zh3-h4ck.github.io class="iconfont icon-github" title=github></a><a href=https://Zh3-H4ck.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020 -
+2021<span class=heart><i class="iconfont icon-heart"></i></span><span>Zhe</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js></script></body></html>
