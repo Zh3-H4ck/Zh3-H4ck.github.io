@@ -1,0 +1,325 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>2021 S4CTF - Zhe'BLog</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Zhe"><meta name=description content="Baby-XoR 附件给了两个文件分别是 baby_xor.py 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 #!/usr/bin/env python3 # -*- coding: utf-8 -*- from flag import flag def xor(u, v): return &amp;#39;&amp;#39;.join(chr(ord(cu) ^ ord(cv)) for cu, cv in zip(u, v)) u = flag v = flag[1:] + flag[0] enc = open(&amp;#39;flag.enc&amp;#39;, &amp;#39;w&amp;#39;) enc.write(xor(u, v)) enc.close() flag.enc 1 2"><meta name=generator content="Hugo 0.80.0 with theme even"><link rel=canonical href=https://Zh3-H4ck.github.io/post/2021-s4ctf/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.8e26a09b7b99e8ec3a22900de69b02b568e23ace71d66ebfdb13fa655d365f1f.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="2021 S4CTF"><meta property="og:description" content="Baby-XoR 附件给了两个文件分别是 baby_xor.py 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 #!/usr/bin/env python3 # -*- coding: utf-8 -*- from flag import flag def xor(u, v): return ''.join(chr(ord(cu) ^ ord(cv)) for cu, cv in zip(u, v)) u = flag v = flag[1:] + flag[0] enc = open('flag.enc', 'w') enc.write(xor(u, v)) enc.close() flag.enc 1 2"><meta property="og:type" content="article"><meta property="og:url" content="https://Zh3-H4ck.github.io/post/2021-s4ctf/"><meta property="article:published_time" content="2021-04-25T19:36:09+08:00"><meta property="article:modified_time" content="2021-04-25T19:36:09+08:00"><meta itemprop=name content="2021 S4CTF"><meta itemprop=description content="Baby-XoR 附件给了两个文件分别是 baby_xor.py 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 #!/usr/bin/env python3 # -*- coding: utf-8 -*- from flag import flag def xor(u, v): return ''.join(chr(ord(cu) ^ ord(cv)) for cu, cv in zip(u, v)) u = flag v = flag[1:] + flag[0] enc = open('flag.enc', 'w') enc.write(xor(u, v)) enc.close() flag.enc 1 2"><meta itemprop=datePublished content="2021-04-25T19:36:09+08:00"><meta itemprop=dateModified content="2021-04-25T19:36:09+08:00"><meta itemprop=wordCount content="1355"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="2021 S4CTF"><meta name=twitter:description content="Baby-XoR 附件给了两个文件分别是 baby_xor.py 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 #!/usr/bin/env python3 # -*- coding: utf-8 -*- from flag import flag def xor(u, v): return ''.join(chr(ord(cu) ^ ord(cv)) for cu, cv in zip(u, v)) u = flag v = flag[1:] + flag[0] enc = open('flag.enc', 'w') enc.write(xor(u, v)) enc.close() flag.enc 1 2"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Zhe'Blog</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Zhe'Blog</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>2021 S4CTF</h1><div class=post-meta><span class=post-time>2021-04-25</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#baby-xor>Baby-XoR</a></li><li><a href=#baby-iq>Baby-IQ</a></li><li><a href=#ninidibi>ninidibi</a></li></ul></nav></div></div><div class=post-content><h1 id=baby-xor>Baby-XoR</h1><p><img src=image-20210425193844241.png alt=image-20210425193844241></p><p>附件给了两个文件分别是</p><p>baby_xor.py</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=ch>#!/usr/bin/env python3</span>
+<span class=c1># -*- coding: utf-8 -*-</span>
+
+<span class=kn>from</span> <span class=nn>flag</span> <span class=kn>import</span> <span class=n>flag</span>
+
+<span class=k>def</span> <span class=nf>xor</span><span class=p>(</span><span class=n>u</span><span class=p>,</span> <span class=n>v</span><span class=p>):</span>    
+	<span class=k>return</span> <span class=s1>&#39;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=nb>chr</span><span class=p>(</span><span class=nb>ord</span><span class=p>(</span><span class=n>cu</span><span class=p>)</span> <span class=o>^</span> <span class=nb>ord</span><span class=p>(</span><span class=n>cv</span><span class=p>))</span> <span class=k>for</span> <span class=n>cu</span><span class=p>,</span> <span class=n>cv</span> <span class=ow>in</span> <span class=nb>zip</span><span class=p>(</span><span class=n>u</span><span class=p>,</span> <span class=n>v</span><span class=p>))</span>
+
+<span class=n>u</span> <span class=o>=</span> <span class=n>flag</span>
+<span class=n>v</span> <span class=o>=</span> <span class=n>flag</span><span class=p>[</span><span class=mi>1</span><span class=p>:]</span> <span class=o>+</span> <span class=n>flag</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+
+<span class=n>enc</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;flag.enc&#39;</span><span class=p>,</span> <span class=s1>&#39;w&#39;</span><span class=p>)</span>
+<span class=n>enc</span><span class=o>.</span><span class=n>write</span><span class=p>(</span><span class=n>xor</span><span class=p>(</span><span class=n>u</span><span class=p>,</span> <span class=n>v</span><span class=p>))</span>
+<span class=n>enc</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+
+</code></pre></td></tr></table></div></div><p>flag.enc</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>
+EF
+
+GIIsgw=#
+&#39;HB-7=
+hB-&#39;7=S  \	
+</code></pre></td></tr></table></div></div><p>一开始使用爆破，可以看到有短flag</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=ch>#!/usr/bin/env python3</span>
+<span class=c1># -*- coding: utf-8 -*-</span>
+<span class=kn>import</span> <span class=nn>string</span>
+
+<span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;flag.enc&#34;</span><span class=p>,</span> <span class=s2>&#34;r&#34;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+    <span class=n>words</span> <span class=o>=</span> <span class=n>f</span><span class=o>.</span><span class=n>read</span><span class=p>()</span>
+<span class=n>flag</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
+<span class=k>for</span> <span class=n>s</span> <span class=ow>in</span> <span class=n>string</span><span class=o>.</span><span class=n>printable</span><span class=p>:</span>
+    <span class=n>flag</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
+    <span class=n>t</span> <span class=o>=</span> <span class=n>s</span>
+    <span class=k>for</span> <span class=n>w</span> <span class=ow>in</span> <span class=n>words</span><span class=p>:</span>
+        <span class=n>t</span> <span class=o>=</span> <span class=nb>chr</span><span class=p>(</span><span class=nb>ord</span><span class=p>(</span><span class=n>w</span><span class=p>)</span> <span class=o>^</span> <span class=nb>ord</span><span class=p>(</span><span class=n>t</span><span class=p>))</span>
+        <span class=n>flag</span> <span class=o>=</span> <span class=n>flag</span> <span class=o>+</span> <span class=n>t</span>
+    <span class=k>print</span><span class=p>(</span><span class=n>flag</span><span class=p>)</span>
+
+</code></pre></td></tr></table></div></div><p><img src=image-20210425194259389.png alt=image-20210425194259389></p><p>后面看了wp，发现别人都是用<strong>rb</strong>模式读取文件的</p><p>所以对脚本进行修改</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=ch>#!/usr/bin/env python3</span>
+<span class=c1># -*- coding: utf-8 -*-</span>
+<span class=kn>import</span> <span class=nn>string</span>
+
+<span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;flag.enc&#34;</span><span class=p>,</span> <span class=s2>&#34;rb&#34;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+    <span class=n>words</span> <span class=o>=</span> <span class=n>f</span><span class=o>.</span><span class=n>read</span><span class=p>()</span>
+<span class=n>flag</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
+<span class=k>for</span> <span class=n>s</span> <span class=ow>in</span> <span class=n>string</span><span class=o>.</span><span class=n>printable</span><span class=p>:</span>
+    <span class=n>flag</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
+    <span class=n>t</span> <span class=o>=</span> <span class=n>s</span>
+    <span class=k>for</span> <span class=n>w</span> <span class=ow>in</span> <span class=n>words</span><span class=p>:</span>
+        <span class=n>t</span> <span class=o>=</span> <span class=nb>chr</span><span class=p>(</span><span class=n>w</span><span class=o>^</span> <span class=nb>ord</span><span class=p>(</span><span class=n>t</span><span class=p>))</span>
+        <span class=n>flag</span> <span class=o>=</span> <span class=n>flag</span> <span class=o>+</span> <span class=n>t</span>
+    <span class=k>print</span><span class=p>(</span><span class=n>flag</span><span class=p>)</span>
+
+</code></pre></td></tr></table></div></div><p>这时候flag就对了</p><p><img src=image-20210425194450065.png alt=image-20210425194450065></p><hr><h1 id=baby-iq>Baby-IQ</h1><p><img src=image-20210425194542694.png alt=image-20210425194542694></p><p>附件同样有两个</p><p>baby-iq.py</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=ch>#!/usr/bin/env python3</span>
+<span class=c1># -*- coding: utf-8 -*-</span>
+
+<span class=kn>from</span> <span class=nn>math</span> <span class=kn>import</span> <span class=n>sqrt</span>
+<span class=kn>from</span> <span class=nn>flag</span> <span class=kn>import</span> <span class=n>flag</span>
+<span class=kn>import</span> <span class=nn>os</span>
+<span class=kn>import</span> <span class=nn>random</span>
+<span class=kn>import</span> <span class=nn>base64</span>
+
+<span class=k>def</span> <span class=nf>chunkchunk</span><span class=p>(</span><span class=n>msg</span><span class=p>,</span> <span class=n>l</span><span class=p>):</span>
+	<span class=k>return</span> <span class=p>[</span><span class=n>msg</span><span class=p>[</span><span class=n>l</span><span class=o>*</span><span class=n>i</span><span class=p>:</span><span class=n>l</span><span class=o>*</span><span class=p>(</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)]</span> <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=nb>len</span><span class=p>(</span><span class=n>msg</span><span class=p>)</span> <span class=o>//</span> <span class=n>l</span><span class=p>)]</span>
+
+<span class=k>def</span> <span class=nf>pad</span><span class=p>(</span><span class=n>msg</span><span class=p>):</span>
+	<span class=n>r</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>sqrt</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>msg</span><span class=p>)))</span> <span class=o>+</span> <span class=mi>1</span>
+	<span class=n>head</span> <span class=o>=</span> <span class=n>base64</span><span class=o>.</span><span class=n>b64encode</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>urandom</span><span class=p>(</span><span class=n>r</span><span class=o>**</span><span class=mi>2</span><span class=p>))[:</span><span class=n>r</span><span class=o>**</span><span class=mi>2</span> <span class=o>-</span> <span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>msg</span><span class=p>))]</span>
+	<span class=n>msg</span> <span class=o>=</span> <span class=n>head</span> <span class=o>+</span> <span class=n>msg</span><span class=o>.</span><span class=n>encode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+	<span class=n>msg</span> <span class=o>=</span> <span class=n>chunkchunk</span><span class=p>(</span><span class=n>msg</span><span class=p>,</span> <span class=n>r</span><span class=p>)</span>
+	<span class=k>return</span> <span class=p>[</span><span class=nb>list</span><span class=p>(</span><span class=n>m</span><span class=p>)</span> <span class=k>for</span> <span class=n>m</span> <span class=ow>in</span> <span class=n>msg</span><span class=p>]</span>
+
+<span class=k>def</span> <span class=nf>encrypt</span><span class=p>(</span><span class=n>A</span><span class=p>):</span>
+	<span class=n>row</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>A</span><span class=p>)</span>
+	<span class=n>col</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>A</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span>
+	<span class=n>top</span> <span class=o>=</span> <span class=mi>0</span>
+	<span class=n>left</span> <span class=o>=</span> <span class=mi>0</span>
+	<span class=n>tmp</span> <span class=o>=</span> <span class=p>[]</span>
+	<span class=k>while</span> <span class=p>(</span><span class=n>top</span> <span class=o>&lt;</span> <span class=n>row</span> <span class=ow>and</span> <span class=n>left</span> <span class=o>&lt;</span> <span class=n>col</span><span class=p>)</span> <span class=p>:</span>       
+		<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>left</span><span class=p>,</span> <span class=n>col</span><span class=p>)</span> <span class=p>:</span> 
+			<span class=n>tmp</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>A</span><span class=p>[</span><span class=n>top</span><span class=p>][</span><span class=n>i</span><span class=p>])</span>              
+		<span class=n>top</span> <span class=o>+=</span> <span class=mi>1</span>
+		<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>top</span><span class=p>,</span> <span class=n>row</span><span class=p>)</span> <span class=p>:</span> 
+			<span class=n>tmp</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>A</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=n>col</span> <span class=o>-</span> <span class=mi>1</span><span class=p>])</span>     
+		<span class=n>col</span> <span class=o>-=</span> <span class=mi>1</span>
+		<span class=k>if</span> <span class=p>(</span> <span class=n>top</span> <span class=o>&lt;</span> <span class=n>row</span><span class=p>)</span> <span class=p>:</span> 
+			<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>col</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=n>left</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>:</span> 
+				<span class=n>tmp</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>A</span><span class=p>[</span><span class=n>row</span> <span class=o>-</span> <span class=mi>1</span><span class=p>][</span><span class=n>i</span><span class=p>])</span>  
+			<span class=n>row</span> <span class=o>-=</span> <span class=mi>1</span>
+		  
+		<span class=k>if</span> <span class=p>(</span><span class=n>left</span> <span class=o>&lt;</span> <span class=n>col</span><span class=p>)</span> <span class=p>:</span> 
+			<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>row</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=n>top</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>:</span> 
+				<span class=n>tmp</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>A</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=n>left</span><span class=p>])</span>   
+			<span class=n>left</span> <span class=o>+=</span> <span class=mi>1</span>
+	<span class=n>result</span> <span class=o>=</span> <span class=p>[]</span>
+	<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>A</span><span class=p>)):</span>
+		<span class=n>r</span> <span class=o>=</span> <span class=p>[]</span>
+		<span class=k>for</span> <span class=n>j</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>A</span><span class=p>[</span><span class=mi>0</span><span class=p>])):</span>
+			<span class=n>r</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>tmp</span><span class=p>[</span><span class=n>i</span><span class=o>*</span><span class=nb>len</span><span class=p>(</span><span class=n>A</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span> <span class=o>+</span> <span class=n>j</span><span class=p>])</span>
+		<span class=n>result</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>r</span><span class=p>)</span>
+	<span class=k>return</span> <span class=n>result</span>
+
+<span class=n>A</span> <span class=o>=</span> <span class=n>pad</span><span class=p>(</span><span class=n>flag</span><span class=p>)</span>
+<span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>A</span><span class=p>)):</span>
+	<span class=n>_</span> <span class=o>=</span> <span class=n>encrypt</span><span class=p>(</span><span class=n>A</span><span class=p>)</span>
+	<span class=n>A</span> <span class=o>=</span> <span class=n>_</span>
+
+<span class=k>print</span><span class=p>(</span><span class=s1>&#39;enc =&#39;</span><span class=p>,</span> <span class=n>A</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div><p>enc.txt</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>enc = [[122, 83, 52, 67, 84, 70], [89, 114, 79, 48, 67, 125], [95, 121, 114, 53, 116, 55], [123, 95, 80, 51, 52, 95], [102, 115, 114, 95, 119, 107], [52, 117, 109, 33, 97, 112]]
+</code></pre></td></tr></table></div></div><p>这题说来也惭愧，没注意到坑</p><p>用任意明文去试了下题目给的脚本，发现实际是一个位置变化的脚本，只是将明文中的字符进行位置变换。所以可以对比变换前后的差别，进行逆变换即可</p><p>假设明文是<strong>1234567890qwertyuiopasdfghjklzxcvbn</strong></p><p>pad后的结果是<strong>f1234567890qwertyuiopasdfghjklzxcvbn</strong></p><p>变换后的结果是<strong>f123450zugwnqreayo6dt7lif9hjks8cxbpv</strong></p><p>所以求变换矩阵，并将flag还原</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=n>flag</span> <span class=o>=</span> <span class=s2>&#34;f1234567890qwertyuiopasdfghjklzxcvbn&#34;</span>
+<span class=n>cipher</span> <span class=o>=</span> <span class=s2>&#34;f123450zugwnqreayo6dt7lif9hjks8cxbpv&#34;</span>
+<span class=n>index_list</span> <span class=o>=</span> <span class=p>[]</span>
+<span class=k>for</span> <span class=n>a</span> <span class=ow>in</span> <span class=n>cipher</span><span class=p>:</span>
+    <span class=n>index_list</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>flag</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>a</span><span class=p>))</span>
+
+<span class=n>A</span> <span class=o>=</span> <span class=p>[[</span><span class=mi>122</span><span class=p>,</span> <span class=mi>83</span><span class=p>,</span> <span class=mi>52</span><span class=p>,</span> <span class=mi>67</span><span class=p>,</span> <span class=mi>84</span><span class=p>,</span> <span class=mi>70</span><span class=p>],</span> <span class=p>[</span><span class=mi>89</span><span class=p>,</span> <span class=mi>114</span><span class=p>,</span> <span class=mi>79</span><span class=p>,</span> <span class=mi>48</span><span class=p>,</span> <span class=mi>67</span><span class=p>,</span> <span class=mi>125</span><span class=p>],</span> <span class=p>[</span><span class=mi>95</span><span class=p>,</span> <span class=mi>121</span><span class=p>,</span> <span class=mi>114</span><span class=p>,</span> <span class=mi>53</span><span class=p>,</span> <span class=mi>116</span><span class=p>,</span> <span class=mi>55</span><span class=p>],</span> <span class=p>[</span><span class=mi>123</span><span class=p>,</span> <span class=mi>95</span><span class=p>,</span> <span class=mi>80</span><span class=p>,</span> <span class=mi>51</span><span class=p>,</span> <span class=mi>52</span><span class=p>,</span> <span class=mi>95</span><span class=p>],</span>
+     <span class=p>[</span><span class=mi>102</span><span class=p>,</span> <span class=mi>115</span><span class=p>,</span> <span class=mi>114</span><span class=p>,</span> <span class=mi>95</span><span class=p>,</span> <span class=mi>119</span><span class=p>,</span> <span class=mi>107</span><span class=p>],</span> <span class=p>[</span><span class=mi>52</span><span class=p>,</span> <span class=mi>117</span><span class=p>,</span> <span class=mi>109</span><span class=p>,</span> <span class=mi>33</span><span class=p>,</span> <span class=mi>97</span><span class=p>,</span> <span class=mi>112</span><span class=p>]]</span>
+<span class=n>n</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+<span class=k>for</span> <span class=n>a</span> <span class=ow>in</span> <span class=n>A</span><span class=p>:</span>
+    <span class=n>n</span> <span class=o>=</span> <span class=n>n</span> <span class=o>+</span> <span class=s2>&#34;&#34;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=nb>chr</span><span class=p>(</span><span class=n>s</span><span class=p>)</span> <span class=k>for</span> <span class=n>s</span> <span class=ow>in</span> <span class=n>a</span><span class=p>)</span>
+<span class=k>print</span><span class=p>(</span><span class=n>n</span><span class=p>)</span>
+
+<span class=k>print</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>n</span><span class=p>))</span>
+<span class=n>ss</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&#34;&#34;</span><span class=p>]</span> <span class=o>*</span> <span class=mi>36</span>
+<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>index_list</span><span class=p>)):</span>
+    <span class=n>ss</span><span class=p>[</span><span class=n>index_list</span><span class=p>[</span><span class=n>i</span><span class=p>]]</span> <span class=o>=</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span>
+<span class=k>print</span><span class=p>(</span><span class=s2>&#34;&#34;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>ss</span><span class=p>))</span>
+</code></pre></td></tr></table></div></div><p><img src=image-20210425201137117.png alt=image-20210425201137117></p><p>去掉第一个字符。提交后，发现不对。懵逼</p><p>后面看了题解然后发现答案和我的就差一个字符f，原来是因为str.find()永远返回第一个字符的索引，导致了中间的字符索引丢了</p><p>修改脚本，粗暴的将首字符去掉了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>flag = &#34;1234567890qwertyuiopasdfghjklzxcvbn&#34;
+cipher = &#34;123450zugwnqreayo6dt7lif9hjks8cxbpv&#34;
+index_list = []
+for a in cipher:
+    index_list.append(flag.find(a))
+
+A = [[83, 52, 67, 84, 70], [89, 114, 79, 48, 67, 125], [95, 121, 114, 53, 116, 55], [123, 95, 80, 51, 52, 95],
+     [102, 115, 114, 95, 119, 107], [52, 117, 109, 33, 97, 112]]
+#密文也去掉首字符，这样索引就对上了
+n = &#34;&#34;
+for a in A:
+    n = n + &#34;&#34;.join(chr(s) for s in a)
+
+ss = [&#34;&#34;] * 36
+for i in range(len(index_list)):
+    ss[index_list[i]] = n[i]
+print(&#34;&#34;.join(ss))
+</code></pre></td></tr></table></div></div><p><img src=image-20210425202000732.png alt=image-20210425202000732></p><h1 id=ninidibi>ninidibi</h1><p><img src=image-20210425202141565.png alt=image-20210425202141565></p><p>附件是一个文件，用文本打开如下</p><p><img src=image-20210425202355826.png alt=image-20210425202355826></p><p>有点像sqlite3的文件，但是确实了文件头，修复文件头后如下</p><p><img src=image-20210425202923084.png alt=image-20210425202923084></p><p>用工具打开数据库，可以看到两张表</p><p><img src=image-20210425202831917.png alt=image-20210425202831917></p><p>其中flag表是字符，order代表对于该字符的索引，但是order表的第一个记录是null</p><p><img src=image-20210425203041646.png alt=image-20210425203041646></p><p>需要找到缺少的索引，所以脚本如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>flag = [52, 95, 95, 85, 55, 48, 97, 33, 77, 83, 48, 110, 114, 125, 97, 83, 105, 97, 82, 67, 53, 67, 66, 89, 75, 102, 98,
+        95, 52, 108, 82, 51, 87, 104, 33, 70, 98, 104, 102, 95, 95, 95, 95, 95, 80, 95, 108, 123, 95, 65, 98, 84, 33,
+        115]
+orders = [12, 11, 38, 25, 31, 48, 51, 37, 21, 14, 17, 15, 53, 35, 0, 19, 43, 32, 2, 18, 20, 6, 9, 28, 30, 8, 23, 1, 42,
+          36, 16, 34, 44, 50, 4, 46, 49, 13, 10, 22, 40, 29, 45, 39, 33, 47, 5, 24, 26, 41, 3, 52, 27]
+sort_orders = orders[:]
+sort_orders.sort()
+for i in range(len(sort_orders)):
+    if i != sort_orders[i]:
+        orders.insert(0, i)
+        break
+output=[&#34;&#34;]*100
+for i in range(len(orders)):
+    output[orders[i]] =chr(flag[i])
+print(&#34;&#34;.join(output))
+</code></pre></td></tr></table></div></div><p><img src=image-20210425204208840.png alt=image-20210425204208840></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Zhe</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2021-04-25</span></p></div><footer class=post-footer><nav class=post-nav><a class=next href=/post/2021-securebugctf/><span class="next-text nav-default">2021 SecurebugCTF-未完成</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=https://zh3-h4ck.github.io class="iconfont icon-github" title=github></a><a href=https://Zh3-H4ck.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020 -
+2021<span class=heart><i class="iconfont icon-heart"></i></span><span>Zhe</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js></script></body></html>
